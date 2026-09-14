@@ -261,6 +261,143 @@
             border-radius: 8px;
         }
 
+        .archive-section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 7% 90px;
+        }
+
+        .archive-container {
+            background: var(--white);
+            border-radius: 18px;
+            box-shadow: 0 12px 35px rgba(15, 16, 17, .08);
+            padding: 38px;
+        }
+
+        .archive-title {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 26px;
+            font-weight: 400;
+            color: var(--noir);
+            margin-bottom: 28px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-300);
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .filter-button {
+            padding: 10px 18px;
+            border: 2px solid var(--gray-300);
+            background: var(--white);
+            color: var(--noir);
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .filter-button:hover {
+            border-color: var(--coral);
+            color: var(--coral);
+        }
+
+        .filter-button.active {
+            background: var(--coral);
+            border-color: var(--coral);
+            color: var(--noir);
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .report-item {
+            padding: 16px;
+            border: 2px solid var(--gray-300);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all .2s ease;
+            background: var(--white);
+            text-align: center;
+        }
+
+        .report-item:hover {
+            border-color: var(--coral);
+            background: var(--gray-100);
+            transform: translateY(-2px);
+        }
+
+        .report-item.selected {
+            border-color: var(--coral);
+            background: var(--cream);
+        }
+
+        .report-item-date {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--noir);
+            margin-bottom: 4px;
+            font-family: "Hauora", Arial, Helvetica, sans-serif;
+        }
+
+        .report-item-day {
+            font-size: 12px;
+            color: var(--gray-600);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .archive-viewer {
+            border-top: 1px solid var(--gray-300);
+            padding-top: 28px;
+            display: none;
+        }
+
+        .archive-viewer.active {
+            display: block;
+        }
+
+        .archive-viewer-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--noir);
+            margin-bottom: 16px;
+        }
+
+        .archive-iframe-wrapper {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .archive-iframe-wrapper iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: var(--gray-600);
+        }
+
+        .empty-state p {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
         @media (max-width: 700px) {
             header {
                 height: 64px;
@@ -316,6 +453,40 @@
             }
 
             .dropdown-iframe-wrapper iframe {
+                height: 600px;
+            }
+
+            .archive-section {
+                padding: 0 6% 65px;
+            }
+
+            .archive-container {
+                padding: 24px;
+            }
+
+            .archive-title {
+                font-size: 20px;
+            }
+
+            .filter-controls {
+                gap: 8px;
+            }
+
+            .filter-button {
+                padding: 8px 14px;
+                font-size: 12px;
+            }
+
+            .reports-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 12px;
+            }
+
+            .report-item {
+                padding: 12px;
+            }
+
+            .archive-iframe-wrapper iframe {
                 height: 600px;
             }
 
@@ -399,9 +570,40 @@
 
         </section>
 
+        <section class="archive-section">
+
+            <div class="archive-container">
+
+                <h2 class="archive-title">Report History</h2>
+
+                <div class="filter-controls">
+                    <button class="filter-button active" data-filter="all">All Reports</button>
+                    <button class="filter-button" data-filter="week">This Week</button>
+                    <button class="filter-button" data-filter="month">This Month</button>
+                    <button class="filter-button" data-filter="previous-month">Previous Month</button>
+                </div>
+
+                <div class="reports-grid" id="reportsGrid">
+                    <div class="empty-state">
+                        <p>Loading reports...</p>
+                    </div>
+                </div>
+
+                <div class="archive-viewer" id="archiveViewer">
+                    <div class="archive-viewer-title" id="archiveViewerTitle">Viewing Report</div>
+                    <div class="archive-iframe-wrapper">
+                        <iframe id="archiveIframe" title="Historical EOD Report"></iframe>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
     </main>
 
     <script>
+        // Current report dropdown toggle
         const reportToggle = document.getElementById('reportToggle');
         const reportContent = document.getElementById('reportContent');
         const dropdownToggleArrow = reportToggle.querySelector('.dropdown-toggle');
@@ -413,6 +615,122 @@
             const isOpen = reportContent.classList.contains('open');
             reportToggle.querySelector('span:first-child').textContent = isOpen ? 'Hide Today\'s Report' : 'View Today\'s Report';
         });
+
+        // Report history archive system
+        let allReports = [];
+        let selectedReport = null;
+
+        async function loadReports() {
+            try {
+                const response = await fetch('reports.json');
+                if (!response.ok) throw new Error('Failed to load reports.json');
+                allReports = await response.json();
+                allReports.sort((a, b) => new Date(b.date) - new Date(a.date)); // Most recent first
+                renderReports('all');
+            } catch (error) {
+                console.error('Error loading reports:', error);
+                document.getElementById('reportsGrid').innerHTML =
+                    '<div class="empty-state"><p>Error loading report history. Please refresh the page.</p></div>';
+            }
+        }
+
+        function getDateRange(filter) {
+            const today = new Date('2026-09-14'); // Using the demo date
+            const startOfWeek = new Date(today);
+            startOfWeek.setDate(today.getDate() - today.getDay());
+            startOfWeek.setHours(0, 0, 0, 0);
+
+            const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+            const startOfPreviousMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+            const endOfPreviousMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+
+            switch (filter) {
+                case 'week':
+                    return { start: startOfWeek, end: today };
+                case 'month':
+                    return { start: startOfMonth, end: today };
+                case 'previous-month':
+                    return { start: startOfPreviousMonth, end: endOfPreviousMonth };
+                default:
+                    return { start: new Date(2000, 0, 1), end: today };
+            }
+        }
+
+        function filterReports(filter) {
+            const range = getDateRange(filter);
+            return allReports.filter(report => {
+                const reportDate = new Date(report.date);
+                return reportDate >= range.start && reportDate <= range.end;
+            });
+        }
+
+        function renderReports(filter) {
+            const filtered = filterReports(filter);
+            const grid = document.getElementById('reportsGrid');
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="empty-state"><p>No reports available for this period.</p></div>';
+                return;
+            }
+
+            grid.innerHTML = filtered.map(report => `
+                <div class="report-item ${selectedReport && selectedReport.date === report.date ? 'selected' : ''}"
+                     data-date="${report.date}" data-file="${report.file}">
+                    <div class="report-item-date">${report.date}</div>
+                    <div class="report-item-day">${report.dayOfWeek || 'Report'}</div>
+                </div>
+            `).join('');
+
+            // Add click handlers
+            grid.querySelectorAll('.report-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const date = this.dataset.date;
+                    const file = this.dataset.file;
+                    const report = allReports.find(r => r.date === date);
+
+                    // Update selected state
+                    grid.querySelectorAll('.report-item').forEach(r => r.classList.remove('selected'));
+                    this.classList.add('selected');
+
+                    // Load report
+                    loadReport(report);
+                });
+            });
+        }
+
+        function loadReport(report) {
+            selectedReport = report;
+            const viewer = document.getElementById('archiveViewer');
+            const iframe = document.getElementById('archiveIframe');
+            const title = document.getElementById('archiveViewerTitle');
+
+            title.textContent = `Report for ${report.label}`;
+            iframe.src = report.file;
+            viewer.classList.add('active');
+
+            // Smooth scroll to viewer
+            viewer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Filter button handlers
+        document.querySelectorAll('.filter-button').forEach(button => {
+            button.addEventListener('click', function() {
+                // Update active button
+                document.querySelectorAll('.filter-button').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                // Render filtered reports
+                const filter = this.dataset.filter;
+                renderReports(filter);
+
+                // Close archive viewer when changing filter
+                selectedReport = null;
+                document.getElementById('archiveViewer').classList.remove('active');
+            });
+        });
+
+        // Load reports on page load
+        document.addEventListener('DOMContentLoaded', loadReports);
     </script>
 
     <footer>

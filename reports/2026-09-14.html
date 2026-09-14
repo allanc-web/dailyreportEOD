@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EOD Transaction Coordination Report</title>
+    <style>
+        :root {
+            --noir: #0F1011;
+            --coral: #EE8172;
+            --pearl: #F6D9D4;
+            --white: #FFFFFF;
+            --purple: #5C50A1;
+            --butter: #EFDD84;
+            --azure: #728AC5;
+            --dark-coral: #DB6A5E;
+            --cream: #FFF7E1;
+            --gray-100: #F5F5F5;
+            --gray-300: #D9D9D9;
+            --gray-600: #666666;
+            --green: #1B7A3D;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Hauora", Arial, Helvetica, sans-serif;
+            background: var(--white);
+            color: var(--noir);
+            padding: 24px;
+        }
+
+        .report-container {
+            max-width: 100%;
+        }
+
+        .report-header {
+            border-bottom: 2px solid var(--gray-300);
+            padding-bottom: 20px;
+            margin-bottom: 24px;
+        }
+
+        .report-header h1 {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 8px;
+            color: var(--noir);
+        }
+
+        .report-date {
+            font-size: 14px;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .report-section {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 20px;
+            font-weight: 400;
+            color: var(--noir);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--gray-300);
+        }
+
+        .metric-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+
+        .metric-card {
+            background: var(--gray-100);
+            padding: 16px;
+            border-radius: 8px;
+            border-left: 4px solid var(--coral);
+        }
+
+        .metric-label {
+            font-size: 13px;
+            color: var(--gray-600);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--noir);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 12px;
+        }
+
+        .status-badge.active {
+            background: #E8F5E9;
+            color: var(--green);
+        }
+
+        .status-badge.pending {
+            background: var(--cream);
+            color: #F57C00;
+        }
+
+        .notes-section {
+            background: var(--pearl);
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--noir);
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 16px;
+            }
+
+            .report-header h1 {
+                font-size: 22px;
+            }
+
+            .metric-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="report-container">
+
+        <div class="report-header">
+            <h1>EOD Transaction Coordination Report</h1>
+            <div class="report-date" id="reportDate"></div>
+        </div>
+
+        <div class="report-section">
+            <h2 class="section-title">Daily Activity Summary</h2>
+            <div class="metric-row">
+                <div class="metric-card">
+                    <div class="metric-label">Active Transactions</div>
+                    <div class="metric-value">24</div>
+                    <div class="status-badge active">On Track</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Closings Scheduled</div>
+                    <div class="metric-value">3</div>
+                    <div class="status-badge active">On Schedule</div>
+                </div>
+            </div>
+            <div class="metric-row">
+                <div class="metric-card">
+                    <div class="metric-label">Pending Review</div>
+                    <div class="metric-value">5</div>
+                    <div class="status-badge pending">In Progress</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Compliance Status</div>
+                    <div class="metric-value">100%</div>
+                    <div class="status-badge active">Compliant</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="report-section">
+            <h2 class="section-title">Office Locations</h2>
+            <div class="metric-row">
+                <div class="metric-card">
+                    <div class="metric-label">New Orleans</div>
+                    <div class="metric-value">8</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Baton Rouge</div>
+                    <div class="metric-value">10</div>
+                </div>
+            </div>
+            <div class="metric-row">
+                <div class="metric-card">
+                    <div class="metric-label">Covington-Northshore</div>
+                    <div class="metric-value">6</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="report-section">
+            <h2 class="section-title">Operational Notes</h2>
+            <div class="notes-section">
+                <p><strong>Today's Updates:</strong></p>
+                <ul style="margin-top: 8px; margin-left: 20px; line-height: 1.8;">
+                    <li>All scheduled closings confirmed for end of week</li>
+                    <li>Compliance documentation on schedule for all files</li>
+                    <li>Two transactions moved to next phase; documentation complete</li>
+                    <li>Standard operational procedures followed across all offices</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="report-section">
+            <p style="font-size: 12px; color: var(--gray-600); margin-top: 24px;">
+                Report generated for Rêve Realtors transaction coordination. For detailed information, contact your managing broker.
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        // Set the current date
+        document.getElementById('reportDate').textContent = new Date().toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    </script>
+
+</body>
+</html>
