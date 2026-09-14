@@ -190,6 +190,77 @@
             font-weight: 700;
         }
 
+        .dropdown-section {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 7% 90px;
+        }
+
+        .dropdown-container {
+            background: var(--white);
+            border-radius: 18px;
+            box-shadow: 0 12px 35px rgba(15, 16, 17, .08);
+            overflow: hidden;
+        }
+
+        .dropdown-header {
+            padding: 28px 38px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background: var(--white);
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 22px;
+            font-weight: 400;
+            color: var(--noir);
+            transition: background-color .2s ease;
+        }
+
+        .dropdown-header:hover {
+            background-color: var(--gray-100);
+        }
+
+        .dropdown-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            font-size: 14px;
+            color: var(--dark-coral);
+            font-weight: 700;
+            transition: transform .3s ease;
+        }
+
+        .dropdown-toggle.open {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .3s ease;
+        }
+
+        .dropdown-content.open {
+            max-height: 2000px;
+        }
+
+        .dropdown-iframe-wrapper {
+            padding: 0 38px 38px;
+        }
+
+        .dropdown-iframe-wrapper iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+            border-radius: 8px;
+        }
+
         @media (max-width: 700px) {
             header {
                 height: 64px;
@@ -229,6 +300,23 @@
 
             .report-button {
                 width: 100%;
+            }
+
+            .dropdown-section {
+                padding: 0 6% 65px;
+            }
+
+            .dropdown-header {
+                padding: 20px 24px;
+                font-size: 18px;
+            }
+
+            .dropdown-iframe-wrapper {
+                padding: 0 24px 24px;
+            }
+
+            .dropdown-iframe-wrapper iframe {
+                height: 600px;
             }
 
             footer {
@@ -292,7 +380,40 @@
 
         </section>
 
+        <section class="dropdown-section">
+
+            <div class="dropdown-container">
+
+                <button class="dropdown-header" id="reportToggle">
+                    <span>View Today's Report</span>
+                    <span class="dropdown-toggle">▼</span>
+                </button>
+
+                <div class="dropdown-content" id="reportContent">
+                    <div class="dropdown-iframe-wrapper">
+                        <iframe src="report.html" title="EOD Transaction Coordination Report"></iframe>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
     </main>
+
+    <script>
+        const reportToggle = document.getElementById('reportToggle');
+        const reportContent = document.getElementById('reportContent');
+        const dropdownToggleArrow = reportToggle.querySelector('.dropdown-toggle');
+
+        reportToggle.addEventListener('click', function() {
+            reportContent.classList.toggle('open');
+            dropdownToggleArrow.classList.toggle('open');
+
+            const isOpen = reportContent.classList.contains('open');
+            reportToggle.querySelector('span:first-child').textContent = isOpen ? 'Hide Today\'s Report' : 'View Today\'s Report';
+        });
+    </script>
 
     <footer>
         <div class="footer-brand">
