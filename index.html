@@ -263,58 +263,203 @@
             border-radius: 8px;
         }
 
-        .previous-reports-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
+        .recent-reports-section {
+            background: var(--white);
+            border-radius: 18px;
+            box-shadow: 0 12px 35px rgba(15, 16, 17, .08);
+            overflow: hidden;
+            border: 2px solid var(--noir);
+            padding: 38px;
         }
 
-        .report-item {
-            background: var(--white);
-            border-radius: 12px;
-            padding: 24px;
-            border: 1px solid var(--gray-300);
+        .recent-reports-header {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 22px;
+            font-weight: 400;
+            color: var(--noir);
+            margin-bottom: 28px;
+        }
+
+        .recent-reports-list {
             display: flex;
             flex-direction: column;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .recent-report-item {
+            display: flex;
             justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: var(--gray-100);
+            border-radius: 8px;
             transition: all .2s ease;
         }
 
-        .report-item:hover {
-            border-color: var(--coral);
-            box-shadow: 0 8px 24px rgba(15, 16, 17, .12);
-            transform: translateY(-2px);
+        .recent-report-item:hover {
+            background: #EBEBEB;
         }
 
-        .report-item-date {
-            font-size: 16px;
-            font-weight: 600;
+        .recent-report-date {
+            font-size: 15px;
+            font-weight: 500;
             color: var(--noir);
-            margin-bottom: 8px;
         }
 
-        .report-item-filename {
-            font-size: 12px;
-            color: var(--gray-600);
-            margin-bottom: 16px;
-            word-break: break-word;
-        }
-
-        .report-item-button {
+        .recent-report-view-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 12px 16px;
-            border-radius: 8px;
+            padding: 10px 16px;
+            border-radius: 6px;
             background: var(--coral);
             color: var(--noir);
             text-decoration: none;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             transition: all .2s ease;
         }
 
-        .report-item-button:hover {
+        .recent-report-view-btn:hover {
+            background: var(--dark-coral);
+            transform: translateY(-1px);
+        }
+
+        .browse-history-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 24px;
+            border-radius: 8px;
+            background: transparent;
+            border: 2px solid var(--noir);
+            color: var(--noir);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            transition: all .2s ease;
+        }
+
+        .browse-history-btn:hover {
+            background: var(--gray-100);
+        }
+
+        .history-view {
+            display: none;
+            animation: slideIn .3s ease;
+        }
+
+        .history-view.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .history-header {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 22px;
+            font-weight: 400;
+            color: var(--noir);
+            margin-bottom: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-back-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 16px;
+            border-radius: 6px;
+            background: transparent;
+            border: 1px solid var(--noir);
+            color: var(--noir);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            transition: all .2s ease;
+        }
+
+        .history-back-btn:hover {
+            background: var(--gray-100);
+        }
+
+        .history-year-group {
+            margin-bottom: 36px;
+        }
+
+        .history-year-label {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 20px;
+            font-weight: 400;
+            color: var(--noir);
+            margin-bottom: 16px;
+        }
+
+        .history-month-group {
+            margin-bottom: 24px;
+        }
+
+        .history-month-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--dark-coral);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .history-reports-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-left: 16px;
+        }
+
+        .history-report-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: var(--gray-100);
+            border-radius: 6px;
+            transition: all .2s ease;
+        }
+
+        .history-report-item:hover {
+            background: #EBEBEB;
+        }
+
+        .history-report-date {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--noir);
+        }
+
+        .history-report-view-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 12px;
+            border-radius: 4px;
+            background: var(--coral);
+            color: var(--noir);
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 700;
+            transition: all .2s ease;
+        }
+
+        .history-report-view-btn:hover {
             background: var(--dark-coral);
             transform: translateY(-1px);
         }
@@ -401,8 +546,32 @@
                 height: 600px;
             }
 
-            .previous-reports-container {
-                grid-template-columns: 1fr;
+            .recent-reports-section {
+                padding: 24px;
+            }
+
+            .recent-reports-header {
+                font-size: 18px;
+            }
+
+            .recent-report-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .recent-report-view-btn {
+                width: 100%;
+            }
+
+            .history-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .history-back-btn {
+                width: 100%;
             }
 
             footer {
@@ -486,9 +655,26 @@
         </section>
 
         <section class="report-section">
-            <h2 style="font-family: Georgia, 'Times New Roman', serif; font-size: 28px; font-weight: 400; margin-bottom: 32px;">Previous Reports</h2>
-            <div id="previousReportsContainer" class="previous-reports-container">
-                <div class="loading-message">Loading previous reports...</div>
+            <!-- Recent Reports View -->
+            <div id="recentReportsView" class="recent-reports-section">
+                <div class="recent-reports-header">Recent Reports</div>
+                <div id="recentReportsList" class="recent-reports-list">
+                    <div class="loading-message">Loading reports...</div>
+                </div>
+                <button id="browseHistoryBtn" class="browse-history-btn" style="display: none;">
+                    Browse Report History →
+                </button>
+            </div>
+
+            <!-- History View -->
+            <div id="historyView" class="recent-reports-section history-view">
+                <div class="history-header">
+                    <span>Report History</span>
+                    <button id="backToRecentBtn" class="history-back-btn">← Back to Recent</button>
+                </div>
+                <div id="historyContainer">
+                    <div class="loading-message">Loading report history...</div>
+                </div>
             </div>
         </section>
 
@@ -508,9 +694,11 @@
             reportToggle.querySelector('span:first-child').textContent = isOpen ? 'Hide Today\'s Report' : 'View Today\'s Report';
         });
 
-        // Load previous reports from GitHub API
-        async function loadPreviousReports() {
-            const container = document.getElementById('previousReportsContainer');
+        // Load and display reports
+        async function loadReports() {
+            const recentReportsList = document.getElementById('recentReportsList');
+            const historyContainer = document.getElementById('historyContainer');
+            const browseHistoryBtn = document.getElementById('browseHistoryBtn');
 
             try {
                 // Fetch list of files from GitHub API (public access, no token needed)
@@ -521,7 +709,8 @@
 
                 if (!response.ok) {
                     if (response.status === 404) {
-                        container.innerHTML = '<div class="no-reports-message">No previous reports available yet.</div>';
+                        recentReportsList.innerHTML = '<div class="no-reports-message">No reports available yet.</div>';
+                        browseHistoryBtn.style.display = 'none';
                         return;
                     }
                     throw new Error(`GitHub API error: ${response.status}`);
@@ -537,17 +726,21 @@
                         const dateMatch = file.name.match(/(\d{4})-(\d{2})-(\d{2})/);
                         let displayDate = file.name;
                         let sortDate = '';
+                        let year = '';
+                        let month = '';
 
                         if (dateMatch) {
-                            const [, year, month, day] = dateMatch;
-                            const date = new Date(year, month - 1, day);
+                            const [, y, m, d] = dateMatch;
+                            year = y;
+                            month = m;
+                            const date = new Date(y, m - 1, d);
                             if (!isNaN(date.getTime())) {
                                 displayDate = date.toLocaleDateString('en-US', {
                                     year: 'numeric',
                                     month: 'long',
                                     day: 'numeric'
                                 });
-                                sortDate = `${year}-${month}-${day}`;
+                                sortDate = `${y}-${m}-${d}`;
                             }
                         }
 
@@ -555,6 +748,8 @@
                             filename: file.name,
                             displayDate: displayDate,
                             sortDate: sortDate,
+                            year: year,
+                            month: month,
                             path: `./reports/${file.name}`
                         };
                     });
@@ -567,31 +762,102 @@
                     return 0;
                 });
 
-                // Render reports
+                // Handle empty state
                 if (reports.length === 0) {
-                    container.innerHTML = '<div class="no-reports-message">No previous reports available yet.</div>';
-                } else {
-                    container.innerHTML = reports.map(report => `
-                        <div class="report-item">
-                            <div>
-                                <div class="report-item-date">${report.displayDate}</div>
-                                <div class="report-item-filename">${report.filename}</div>
-                            </div>
-                            <a href="${report.path}" target="_blank" class="report-item-button">View Report</a>
-                        </div>
-                    `).join('');
+                    recentReportsList.innerHTML = '<div class="no-reports-message">No reports available yet.</div>';
+                    browseHistoryBtn.style.display = 'none';
+                    return;
                 }
+
+                // Show browse history button if there are reports
+                browseHistoryBtn.style.display = 'inline-flex';
+
+                // Render Recent Reports (10 most recent)
+                const recentReports = reports.slice(0, 10);
+                recentReportsList.innerHTML = recentReports.map(report => `
+                    <div class="recent-report-item">
+                        <div class="recent-report-date">${report.displayDate}</div>
+                        <a href="${report.path}" target="_blank" class="recent-report-view-btn">View Report</a>
+                    </div>
+                `).join('');
+
+                // Render History (all reports organized by year → month)
+                const grouped = {};
+                reports.forEach(report => {
+                    if (report.year && report.month) {
+                        if (!grouped[report.year]) {
+                            grouped[report.year] = {};
+                        }
+                        if (!grouped[report.year][report.month]) {
+                            grouped[report.year][report.month] = [];
+                        }
+                        grouped[report.year][report.month].push(report);
+                    }
+                });
+
+                const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                    'July', 'August', 'September', 'October', 'November', 'December'];
+
+                let historyHtml = '';
+                const years = Object.keys(grouped).sort((a, b) => b - a); // Newest year first
+
+                years.forEach(year => {
+                    historyHtml += `<div class="history-year-group">`;
+                    historyHtml += `<div class="history-year-label">${year}</div>`;
+
+                    const months = Object.keys(grouped[year]).sort((a, b) => b - a); // Newest month first
+
+                    months.forEach(month => {
+                        const monthName = monthNames[parseInt(month) - 1];
+                        historyHtml += `<div class="history-month-group">`;
+                        historyHtml += `<div class="history-month-label">${monthName}</div>`;
+                        historyHtml += `<div class="history-reports-list">`;
+
+                        grouped[year][month].forEach(report => {
+                            historyHtml += `
+                                <div class="history-report-item">
+                                    <div class="history-report-date">${report.displayDate}</div>
+                                    <a href="${report.path}" target="_blank" class="history-report-view-btn">View</a>
+                                </div>
+                            `;
+                        });
+
+                        historyHtml += `</div></div>`;
+                    });
+
+                    historyHtml += `</div>`;
+                });
+
+                historyContainer.innerHTML = historyHtml;
+
             } catch (error) {
-                console.error('Error loading previous reports:', error);
-                container.innerHTML = `<div class="error-message">Unable to load previous reports. Please try again later.</div>`;
+                console.error('Error loading reports:', error);
+                recentReportsList.innerHTML = `<div class="error-message">Unable to load reports. Please try again later.</div>`;
+                browseHistoryBtn.style.display = 'none';
             }
         }
 
-        // Load previous reports when page loads
+        // Set up view switching
+        const recentReportsView = document.getElementById('recentReportsView');
+        const historyView = document.getElementById('historyView');
+        const browseHistoryBtn = document.getElementById('browseHistoryBtn');
+        const backToRecentBtn = document.getElementById('backToRecentBtn');
+
+        browseHistoryBtn.addEventListener('click', function() {
+            recentReportsView.style.display = 'none';
+            historyView.classList.add('active');
+        });
+
+        backToRecentBtn.addEventListener('click', function() {
+            historyView.classList.remove('active');
+            recentReportsView.style.display = 'block';
+        });
+
+        // Load reports when page loads
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', loadPreviousReports);
+            document.addEventListener('DOMContentLoaded', loadReports);
         } else {
-            loadPreviousReports();
+            loadReports();
         }
     </script>
 
